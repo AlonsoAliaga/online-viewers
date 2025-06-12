@@ -30,7 +30,10 @@ async function updatePages(isStart){
 };
 updatePages(true);
 function updateViewers() {
-    fetch('https://alonsoapi.discloud.app/checking-total').catch(e=>{
+    let query = "";
+    let search = window.location.search;
+    if(typeof search !== "undefined" && search.length > 0) query = search;
+    fetch(`https://alonsoapi.discloud.app/checking-total${query}`).catch(e=>{
         console.log(`Error fetching online total: ${e.message}`);
         onlineDiv.innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ❌</span></div>`
     }).then(res => res.json())
