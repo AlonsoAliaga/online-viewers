@@ -137,5 +137,6 @@ function updateViewers() {
             }
         }
         onlineDiv.innerHTML = dataArray.concat(unknownArray).join(`<p style="font-size:2px"> </p>`);
+        if(document.body.style.overflow == "hidden") document.body.style.overflow = null;
     });
 }
