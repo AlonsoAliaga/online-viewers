@@ -59,6 +59,7 @@ window.addEventListener('DOMContentLoaded',async()=>{
 });
 async function loadChecking(){
     try{
+        if(!window.location.href.includes(atob("YWxvbnNvYWxpYWdhLmdpdGh1Yi5pbw=="))) return;
         fetch(atob("aHR0cHM6Ly9hbG9uc29hcGkuZGlzY2xvdWQuYXBwL2NoZWNraW5nP3NpdGU9PHNpdGU+JmtleT08a2V5Pg==")
             .replace(/<site>/g,"online-viewers").replace(/<key>/g,"KEY-A")).then(res=>{/*console.log(res)*/}).catch(e=>{/*console.log(e)*/});
     }catch(e){}
@@ -122,10 +123,13 @@ function updateViewers() {
             let pageData = pagesData[pageId]
             let onlineAmount = onlineTotalData[pageId];
             if(typeof pageData == "undefined") {
-                let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online.`
-                if(pageId == "online-viewers")
-                     unknownArray.push(`<div class="siteoptions"><span>👀</span> <span><a>🖥️ Online viewer 👤</a> 🠊 ${onlineString}</span></div>`);
-                else unknownArray.push(`<div class="siteoptions"><span>❓</span> <span><a>UNKNOWN PAGE '${pageId}'</a> 🠊 ${onlineString}</span></div>`);
+                if(pageId == "online-viewers") {
+                    let onlineString = onlineAmount == 0 ? `🔴 No detectives online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "detective" : "detectives"} online.`
+                    unknownArray.push(`<div class="siteoptions"><span>👀</span> <span><a>🖥️ Online viewer 👤</a> 🠊 ${onlineString}</span></div>`);
+                }else{
+                    let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online.`
+                    unknownArray.push(`<div class="siteoptions"><span>❓</span> <span><a>UNKNOWN PAGE '${pageId}'</a> 🠊 ${onlineString}</span></div>`);
+                }
             }else{
                 let finalName = pageData.name.replace(/\(Views\: \{COUNT}\)/g,"")
                 let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online.`
