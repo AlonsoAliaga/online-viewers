@@ -1,0 +1,121 @@
+
+body {
+  margin: auto;
+  text-align: center;
+  font-family: MinecraftRegular;
+  list-style-type: none;
+}
+.siteoptions {
+  font-size: 20px;
+  border: 2px solid #ffffff1a;
+  border-radius: 30px;
+  padding: 3px;
+  position: relative;
+  background-color: #ffffff05;
+  border-radius: 30px;
+  width: 90%;
+}
+.options {
+  font-size: 20px;
+  border: 2px solid #aaa;
+  border-radius: 30px;
+  padding: 20px 50px 20px 50px;
+  position: relative;
+  border-radius: 30px;
+  /* width: 200px; */
+}
+@font-face {
+   font-family: MinecraftRegular;
+   src: url(https://raw.githubusercontent.com/AlonsoAliaga/generator/main/assets/fonts/MinecraftRegular.otf);
+}
+@font-face {
+   font-family: MinecraftBold;
+   src: url(https://raw.githubusercontent.com/AlonsoAliaga/generator/main/assets/fonts/MinecraftBold.otf);
+}
+@font-face {
+   font-family: MinecraftItalic;
+   src: url(https://raw.githubusercontent.com/AlonsoAliaga/generator/main/assets/fonts/MinecraftItalic.otf);
+}
+@font-face {
+   font-family: MinecraftBoldItalic;
+   src: url(https://raw.githubusercontent.com/AlonsoAliaga/generator/main/assets/fonts/MinecraftBoldItalic.otf);
+}
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 300;
+  src: url(https://raw.githubusercontent.com/AlonsoAliaga/generator/main/assets/fonts/Quicksand/300.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 500;
+  src: url(https://raw.githubusercontent.com/AlonsoAliaga/generator/main/assets/fonts/Quicksand/500.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url(https://raw.githubusercontent.com/AlonsoAliaga/generator/main/assets/fonts/Quicksand/600.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url(https://raw.githubusercontent.com/AlonsoAliaga/generator/main/generator/assets/fonts/Quicksand/700.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Quicksand';
+  font-style: regular;
+  font-display: swap;
+  font-weight: 400;
+  src: url(https://raw.githubusercontent.com/AlonsoAliaga/generator/main/assets/fonts/Quicksand/regular.ttf) format('truetype');
+}
+.content {
+  margin: 10px auto;
+  width: 1000px;
+}
+h1, h2 {
+  margin: 0;
+}
+h1 {
+  border-bottom: 1px solid #aaa;
+  margin-bottom: 10px;
+}
+.header, .footer {
+  text-align: center;
+}
+body.dark {
+  background-color:#1c1c1cd9;
+  color:rgb(208, 208, 208);
+}
+a:visited,a {
+  color: rgb(23, 142, 246);
+  text-decoration: none;
+}
+a:hover {
+  color: rgb(246, 246, 23);
+  text-decoration: none;
+}
+.rainbow {
+    position:relative;
+    background: linear-gradient(to right, #6666ff, #0099ff , #00ff00, #ff3399, #6666ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow_animation 2s ease-in-out infinite;
+    background-size: 400% 100%;
+}
+@keyframes rainbow_animation {
+    0%,100% {
+        background-position: 0 0;
+    }
+  
+    50% {
+        background-position: 100% 0;
+    }
+}
