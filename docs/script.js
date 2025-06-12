@@ -121,6 +121,5 @@ function updateViewers() {
             }
         }
         onlineDiv.innerHTML = dataArray.concat(unknownArray).join(`<p style="font-size:2px"> </p>`);
-        if(unknownArray.length != 0) updatePages();
     });
 }
