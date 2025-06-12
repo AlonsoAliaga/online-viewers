@@ -9,11 +9,12 @@ async function updatePages(isStart){
     let search = window.location.search;
     if(typeof search !== "undefined" && search.length > 0) query = search;
     try{
+        console.log(`Fetching total?`)
         await fetch(`https://alonsoapi.discloud.app/total${query}`)
         .then(res => res.json())
         .then(content => {
             if(typeof content.error != "undefined") {
-                if(running != undefined) clearInterval(running);
+                clearRunning();
                 updateViewers();
                 return;
             }
@@ -37,18 +38,29 @@ async function updatePages(isStart){
         console.log(`Error fetching current pages data: ${e.message}`)
     }
 };
-window.addEventListener('DOMContentLoaded',async()=>{
-    setTimeout(()=>{
-        loadChecking();
-        setInterval(()=>{
+let checking;
+function clearRunning() {
+    if(typeof running != "undefined")
+        clearInterval(running);
+    if(typeof checking != "undefined")
+        clearInterval(checking);
+    running = undefined;
+    checking = undefined;
+    if(typeof running == "undefined") {
+        setTimeout(()=>{
             loadChecking();
-        },10000)
-    },2500)
+            checking = setInterval(()=>{
+                loadChecking();
+            },10000)
+        },2500)
+    }
+}
+window.addEventListener('DOMContentLoaded',async()=>{
 });
 async function loadChecking(){
     try{
         fetch(atob("aHR0cHM6Ly9hbG9uc29hcGkuZGlzY2xvdWQuYXBwL2NoZWNraW5nP3NpdGU9PHNpdGU+JmtleT08a2V5Pg==")
-            .replace(/<site>/g,"online-viewers").replace(/<key>/g,"KEY-A")).then(res=>console.log(res)).catch(e=>console.log(e));
+            .replace(/<site>/g,"online-viewers").replace(/<key>/g,"KEY-A")).then(res=>{/*console.log(res)*/}).catch(e=>{/*console.log(e)*/});
     }catch(e){}
 }
 updatePages(true);
@@ -59,7 +71,7 @@ function updateViewers() {
     if(typeof search !== "undefined" && search.length > 0) query = search;
     fetch(`https://alonsoapi.discloud.app/checking-total${query}`).catch(e=>{
         console.log(`Error fetching online total: ${e.message}`);
-        if(running != undefined) clearInterval(running);
+        clearRunning();
         let times = 10;
         let ha = setInterval(()=>{
             if(times <= 0) {
@@ -82,7 +94,7 @@ function updateViewers() {
     }).then(res => res.json())
     .then(onlineTotalData => {
         if(typeof onlineTotalData.error != "undefined") {
-            if(running != undefined) clearInterval(running);
+            clearRunning();
             let times = 10;
             let ha = setInterval(()=>{
                 if(times <= 0) {
