@@ -3,6 +3,7 @@ let remaining = 0;
 const onlineDiv = document.getElementById("online-div");
 const beforeDiv = document.getElementById("before-div");
 let pagesData = {}
+let running;
 async function updatePages(isStart){
     try{
         await fetch('https://alonsoapi.discloud.app/total?key=Whatever')
@@ -12,7 +13,7 @@ async function updatePages(isStart){
             //console.log(pagesData)
             if(isStart) {
                 updateViewers();
-                setInterval(()=>{
+                running = setInterval(()=>{
                     if(remaining >= updateSeconds) {
                         beforeDiv.textContent = `Updating statistics 🚀`
                         remaining = 0;
@@ -29,6 +30,7 @@ async function updatePages(isStart){
     }
 };
 updatePages(true);
+const loadingScreen = document.getElementById("loading-screen");
 function updateViewers() {
     let query = "";
     let search = window.location.search;
@@ -36,13 +38,17 @@ function updateViewers() {
     fetch(`https://alonsoapi.discloud.app/checking-total${query}`).catch(e=>{
         console.log(`Error fetching online total: ${e.message}`);
         onlineDiv.innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ❌</span></div>`
+        document.getElementById("loading-screen").innerHTML = `<p style="color:#555555">Connection Lost</p><br>Internal Exception: java.lang.NullPointerException: Cannot invoke<br>"net.minecraft.client.player.LocalPlayer.m20148_()" because "mc.f_91074_" is null`
     }).then(res => res.json())
     .then(onlineTotalData => {
         if(typeof onlineTotalData.error != "undefined") {
+            if(running != undefined) clearInterval(running);
             onlineDiv.innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ❌</span></div>`;
-            document.body.innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ❌</span></div>`;
+            document.getElementById("content").innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ❌</span></div>`;
+            document.getElementById("loading-screen").innerHTML = `<p style="color:#555555">Connection Lost</p><br>Internal Exception: java.lang.NullPointerException: Cannot invoke<br>"net.minecraft.client.player.LocalPlayer.m20148_()" because "mc.f_91074_" is null`
             return;
         }
+        if(loadingScreen.style.display != "none") loadingScreen.style.display = "none";
         let dataArray = []
         let unknownArray = []
         for(let pageId of Object.keys(onlineTotalData)) {
