@@ -32,12 +32,12 @@ updatePages(true);
 function updateViewers() {
     fetch('https://alonsoapi.discloud.app/checking-total').catch(e=>{
         console.log(`Error fetching online total: ${e.message}`);
-        onlineDiv.innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ${onlineString}</span></div>`
+        onlineDiv.innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ❌</span></div>`
     }).then(res => res.json())
     .then(onlineTotalData => {
         if(typeof onlineTotalData.error != "undefined") {
-            onlineDiv.innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ${onlineString}</span></div>`;
-            document.body.innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ${onlineString}</span></div>`;
+            onlineDiv.innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ❌</span></div>`;
+            document.body.innerHTML = `<div class="siteoptions"><span>🔴</span> <span><a title="Who are you?" href="https://alonsoaliaga.com/donate" target="_blank">🚫 What are you doing here? 🚫</a> 🠊 ❌</span></div>`;
             return;
         }
         let dataArray = []
