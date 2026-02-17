@@ -121,19 +121,23 @@ function updateViewers() {
         let unknownArray = []
         for(let pageId of Object.keys(onlineTotalData)) {
             let pageData = pagesData[pageId]
-            let onlineAmount = onlineTotalData[pageId];
+            let infoData = onlineTotalData[pageId];
+            let isTrue = (infoData.true || 0);
+            let isFalse = (infoData.false || 0);
+            let isUnknown = (infoData.unknown || 0);
+            let onlineAmount = isTrue + isFalse + isUnknown;
             if(typeof pageData == "undefined") {
                 if(pageId == "online-viewers") {
-                    let onlineString = onlineAmount == 0 ? `🔴 No detectives online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "detective" : "detectives"} online.`
+                    let onlineString = onlineAmount == 0 ? `🔴 No detectives online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "detective" : "detectives"} online. (✅${isTrue} 🚫${isFalse} ❓${isUnknown})`
                     unknownArray.push(`<div class="siteoptions"><span>👀</span> <span><a>🖥️ Online viewer 👤</a> 🠊 ${onlineString}</span></div>`);
                 }else{
-                    let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online.`
+                    let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isTrue} 🚫${isFalse} ❓${isUnknown})`
                     unknownArray.push(`<div class="siteoptions"><span>❓</span> <span><a>UNKNOWN PAGE '${pageId}'</a> 🠊 ${onlineString}</span></div>`);
                 }
             }else{
                 let finalName = pageData.name.replace(/\(Views\: \{COUNT}\)/g,"")
-                let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online.`
-                dataArray.push(`<div class="siteoptions"><span>💠</span> <span><a title="${pageData.description}" href="${pageData.link}" target="_blank">${finalName}</a> 🠊 ${onlineString}</span></div>`);
+                let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isTrue} 🚫${isFalse} ❓${isUnknown})`
+                dataArray.push(`<div class="siteoptions"><span>👁️ ${pageData.count} 🠊 💠</span> <span><a title="${pageData.description}" href="${pageData.link}" target="_blank">${finalName}</a> 🠊 ${onlineString}</span></div>`);
             }
         }
         onlineDiv.innerHTML = dataArray.concat(unknownArray).join(`<p style="font-size:2px"> </p>`);
