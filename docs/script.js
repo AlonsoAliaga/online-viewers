@@ -138,7 +138,7 @@ function updateViewers() {
                 }
             }else{
                 let finalName = pageData.name.replace(/\(Views\: \{COUNT}\)/g,"")
-                let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isNotAdBlocked} 🚫${isAdBlocked} ❓${isUnknown})${pageId == "generator" ? ` [🆕${newGen} 💀${oldGen}]`: ""}`
+                let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isNotAdBlocked} 🚫${isAdBlocked} ❓${isUnknown})${pageId == "generator" ? `<br> [🆕${newGen} 💀${oldGen}]`: ""}`
                 dataArray.push(`<div class="siteoptions"><span>👁️ ${pageData.count} 🠊 💠</span> <span><a title="${pageData.description}" href="${pageData.link}" target="_blank">${finalName}</a> 🠊 ${onlineString}</span></div>`);
             }
         }
