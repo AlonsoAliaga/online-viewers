@@ -122,9 +122,11 @@ function updateViewers() {
         for(let pageId of Object.keys(onlineTotalData)) {
             let pageData = pagesData[pageId]
             let infoData = onlineTotalData[pageId];
-            let isAdBlocked = (infoData.true || 0);
-            let isNotAdBlocked = (infoData.false || 0);
+            let isAdBlocked = (infoData.yes || 0);
+            let isNotAdBlocked = (infoData.no || 0);
             let isUnknown = (infoData.unknown || 0);
+            let newGen = (infoData.new || 0);
+            let oldGen = (infoData.old || 0);
             let onlineAmount = isAdBlocked + isNotAdBlocked + isUnknown;
             if(typeof pageData == "undefined") {
                 if(pageId == "online-viewers") {
@@ -136,7 +138,7 @@ function updateViewers() {
                 }
             }else{
                 let finalName = pageData.name.replace(/\(Views\: \{COUNT}\)/g,"")
-                let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isNotAdBlocked} 🚫${isAdBlocked} ❓${isUnknown})`
+                let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isNotAdBlocked} 🚫${isAdBlocked} ❓${isUnknown})${pageId == "generator" ? ` [🆕${newGen} 💀${oldGen}]`: ""}`
                 dataArray.push(`<div class="siteoptions"><span>👁️ ${pageData.count} 🠊 💠</span> <span><a title="${pageData.description}" href="${pageData.link}" target="_blank">${finalName}</a> 🠊 ${onlineString}</span></div>`);
             }
         }
