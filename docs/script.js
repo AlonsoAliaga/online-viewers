@@ -125,8 +125,6 @@ function updateViewers() {
             let isAdBlocked = (infoData.yes || 0);
             let isNotAdBlocked = (infoData.no || 0);
             let isUnknown = (infoData.unknown || 0);
-            let newGen = (infoData.new || 0);
-            let oldGen = (infoData.old || 0);
             let onlineAmount = isAdBlocked + isNotAdBlocked + isUnknown;
             if(typeof pageData == "undefined") {
                 if(pageId == "online-viewers") {
@@ -137,9 +135,17 @@ function updateViewers() {
                     unknownArray.push(`<div class="siteoptions"><span>❓</span> <span><a>UNKNOWN PAGE '${pageId}'</a> 🠊 ${onlineString}</span></div>`);
                 }
             }else{
-                let finalName = pageData.name.replace(/\(Views\: \{COUNT}\)/g,"")
-                let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isNotAdBlocked} 🚫${isAdBlocked} ❓${isUnknown})${pageId == "generator" ? `<br>[🆕${newGen} 💀${oldGen}]`: ""}`
-                dataArray.push(`<div class="siteoptions"><span>👁️ ${pageData.count} 🠊 💠</span> <span><a title="${pageData.description}" href="${pageData.link}" target="_blank">${finalName}</a> 🠊 ${onlineString}</span></div>`);
+                if(pageId == "generator") {
+                    let finalName = pageData.name.replace(/\(Views\: \{COUNT}\)/g,"")
+                    let newString = `🆕 ${infoData.new.yes + infoData.new.no + infoData.new.unknown} (✅${infoData.new.yes || 0} 🚫${infoData.new.no || 0} ❓${infoData.new.unknown || 0})`;
+                    let oldString = `💀 ${infoData.old.yes + infoData.old.no + infoData.old.unknown} (✅${infoData.old.yes || 0} 🚫${infoData.old.no || 0} ❓${infoData.old.unknown || 0})`;
+                    let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isNotAdBlocked} 🚫${isAdBlocked} ❓${isUnknown})<br>${newString} | ${oldString}`
+                    dataArray.push(`<div class="siteoptions"><span>👁️ ${pageData.count} 🠊 💠</span> <span><a title="${pageData.description}" href="${pageData.link}" target="_blank">${finalName}</a> 🠊 ${onlineString}</span></div>`);
+                }else{
+                    let finalName = pageData.name.replace(/\(Views\: \{COUNT}\)/g,"")
+                    let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isNotAdBlocked} 🚫${isAdBlocked} ❓${isUnknown})`
+                    dataArray.push(`<div class="siteoptions"><span>👁️ ${pageData.count} 🠊 💠</span> <span><a title="${pageData.description}" href="${pageData.link}" target="_blank">${finalName}</a> 🠊 ${onlineString}</span></div>`);
+                }
             }
         }
         onlineDiv.innerHTML = dataArray.concat(unknownArray).join(`<p style="font-size:2px"> </p>`);
