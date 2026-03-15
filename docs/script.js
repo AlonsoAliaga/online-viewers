@@ -156,7 +156,7 @@ function updateViewers() {
             }
         }
         let totalViewers = totalYes + totalNo + totalUnknown;
-        totalDiv.innerHTML = totalViewers == 0 ? `🔴 No users online.` : `🟢 ${totalViewers == 1 ? "user" : "users"} online. (✅${totalNo} 🚫${totalYes} ❓${totalUnknown})`
+        totalDiv.innerHTML = totalViewers == 0 ? `🔴 No users online.` : `🟢 ${totalViewers} ${totalViewers == 1 ? "user" : "users"} online. (✅${totalNo} 🚫${totalYes} ❓${totalUnknown})`
         onlineDiv.innerHTML = dataArray.concat(unknownArray).join(`<p style="font-size:2px"> </p>`);
         if(document.body.style.overflow == "hidden") document.body.style.overflow = null;
     });
