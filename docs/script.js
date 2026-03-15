@@ -2,6 +2,7 @@ let updateSeconds = 0;
 let remaining = 0;
 const onlineDiv = document.getElementById("online-div");
 const beforeDiv = document.getElementById("before-div");
+const totalDiv = document.getElementById("total-string");
 let pagesData = {}
 let running;
 async function updatePages(isStart){
@@ -119,6 +120,9 @@ function updateViewers() {
         if(loadingScreen.style.display != "none") loadingScreen.style.display = "none";
         let dataArray = []
         let unknownArray = []
+        let totalYes = 0;
+        let totalNo = 0;
+        let totalUnknown = 0;
         for(let pageId of Object.keys(onlineTotalData)) {
             let pageData = pagesData[pageId]
             let infoData = onlineTotalData[pageId];
@@ -135,6 +139,9 @@ function updateViewers() {
                     unknownArray.push(`<div class="siteoptions"><span>❓</span> <span><a>UNKNOWN PAGE '${pageId}'</a> 🠊 ${onlineString}</span></div>`);
                 }
             }else{
+                totalYes += infoData.yes;
+                totalNo += infoData.no;
+                totalUnknown += infoData.unknown;
                 if(pageId == "generator") {
                     let finalName = pageData.name.replace(/\(Views\: \{COUNT}\)/g,"")
                     let newString = `🆕 ${infoData.new.yes + infoData.new.no + infoData.new.unknown} (✅${infoData.new.no || 0} 🚫${infoData.new.yes || 0} ❓${infoData.new.unknown || 0})`;
@@ -148,6 +155,8 @@ function updateViewers() {
                 }
             }
         }
+        let totalViewers = totalYes + totalNo + totalUnknown;
+        totalDiv.innerHTML = totalViewers == 0 ? `🔴 No users online.` : `🟢 ${totalViewers == 1 ? "user" : "users"} online. (✅${totalNo} 🚫${totalYes} ❓${totalUnknown})`
         onlineDiv.innerHTML = dataArray.concat(unknownArray).join(`<p style="font-size:2px"> </p>`);
         if(document.body.style.overflow == "hidden") document.body.style.overflow = null;
     });
