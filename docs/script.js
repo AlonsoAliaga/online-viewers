@@ -63,11 +63,13 @@ async function setRenderTask() {
     }
 }
 async function updateRenderEndpoint() {
-    await fetch(atob("aHR0cHM6Ly9zdGFybGlnaHRza2lucy5sdW5hcmVjbGlwc2Uuc3R1ZGlvL3JlbmRlci9kZWZhdWx0L0Fsb25zb0FsaWFnYS9mdWxs")).catch(e=>{
+    try {
+        const url = atob("aHR0cHM6Ly9zdGFybGlnaHRza2lucy5sdW5hcmVjbGlwc2Uuc3R1ZGlvL3JlbmRlci9kZWZhdWx0L0Fsb25zb0FsaWFnYS9mdWxs");
+        const response = await fetch(url);
+        renderEndpoint = response.ok;
+    } catch (error) {
         renderEndpoint = false;
-    }).then(res=> {
-        renderEndpoint = true;
-    });
+    }
 }
 let checking;
 function clearRunning() {
