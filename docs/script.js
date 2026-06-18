@@ -5,6 +5,8 @@ const beforeDiv = document.getElementById("before-div");
 const totalDiv = document.getElementById("total-string");
 let pagesData = {}
 let running;
+let renderTask = "Loading";
+let renderEndpoint = undefined;
 async function updatePages(isStart){
     let query = "";
     let search = window.location.search;
@@ -23,6 +25,9 @@ async function updatePages(isStart){
             //console.log(pagesData)
             if(isStart) {
                 updateViewers();
+                if(typeof renderTask == "string") {
+                    setRenderTask();
+                }
                 running = setInterval(()=>{
                     if(remaining >= updateSeconds) {
                         beforeDiv.textContent = `Updating statistics 🚀`
@@ -39,6 +44,31 @@ async function updatePages(isStart){
         console.log(`Error fetching current pages data: ${e.message}`)
     }
 };
+async function setRenderTask() {
+    clearInterval(renderTask);
+    if(renderEndpoint){
+        renderTask = setInterval(()=>{
+            await updateRenderEndpoint();
+            if(!renderEndpoint) {
+                setRenderTask();
+            }
+        },1000 * 30);
+    }else{
+        renderTask = setInterval(()=>{
+            await updateRenderEndpoint();
+            if(renderEndpoint) {
+                setRenderTask();
+            }
+        },1000 * 5);
+    }
+}
+async function updateRenderEndpoint() {
+    await fetch(atob("aHR0cHM6Ly9zdGFybGlnaHRza2lucy5sdW5hcmVjbGlwc2Uuc3R1ZGlvL3JlbmRlci9kZWZhdWx0L0Fsb25zb0FsaWFnYS9mdWxs")).catch(e=>{
+        renderEndpoint = false;
+    }).then(res=> {
+        renderEndpoint = true;
+    });
+}
 let checking;
 function clearRunning() {
     if(typeof running != "undefined")
@@ -142,6 +172,7 @@ function updateViewers() {
                 totalYes += infoData.yes;
                 totalNo += infoData.no;
                 totalUnknown += infoData.unknown;
+                let additional = "";
                 if(pageId == "generator") {
                     let finalName = pageData.name.replace(/\(Views\: \{COUNT}\)/g,"")
                     let newString = `🆕 ${infoData.new.yes + infoData.new.no + infoData.new.unknown} (✅${infoData.new.no || 0} 🚫${infoData.new.yes || 0} ❓${infoData.new.unknown || 0})`;
@@ -149,9 +180,12 @@ function updateViewers() {
                     let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isNotAdBlocked} 🚫${isAdBlocked} ❓${isUnknown})<br>${newString} | ${oldString}`
                     dataArray.push(`<div class="siteoptions"><span>👁️ ${pageData.count} 🠊 💠</span> <span><a title="${pageData.description}" href="${pageData.link}" target="_blank">${finalName}</a> 🠊 ${onlineString}</span></div>`);
                 }else{
+                    if(pageId == "mc-renders") {
+                        additional = ` API: ${typeof renderEndpoint == "undefined" ? "⏳" : renderEndpoint ? "🟢" : "🔴"}`
+                    }
                     let finalName = pageData.name.replace(/\(Views\: \{COUNT}\)/g,"")
                     let onlineString = onlineAmount == 0 ? `🔴 No users online.` : `🟢 ${onlineAmount} ${onlineAmount == 1 ? "user" : "users"} online. (✅${isNotAdBlocked} 🚫${isAdBlocked} ❓${isUnknown})`
-                    dataArray.push(`<div class="siteoptions"><span>👁️ ${pageData.count} 🠊 💠</span> <span><a title="${pageData.description}" href="${pageData.link}" target="_blank">${finalName}</a> 🠊 ${onlineString}</span></div>`);
+                    dataArray.push(`<div class="siteoptions"><span>👁️ ${pageData.count} 🠊 💠</span> <span><a title="${pageData.description}" href="${pageData.link}" target="_blank">${finalName}</a> 🠊 ${onlineString}${additional}</span></div>`);
                 }
             }
         }
