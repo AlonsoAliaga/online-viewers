@@ -47,14 +47,14 @@ async function updatePages(isStart){
 async function setRenderTask() {
     clearInterval(renderTask);
     if(renderEndpoint){
-        renderTask = setInterval(()=>{
+        renderTask = setInterval(async ()=>{
             await updateRenderEndpoint();
             if(!renderEndpoint) {
                 setRenderTask();
             }
         },1000 * 30);
     }else{
-        renderTask = setInterval(()=>{
+        renderTask = setInterval(async ()=>{
             await updateRenderEndpoint();
             if(renderEndpoint) {
                 setRenderTask();
