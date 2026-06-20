@@ -26,6 +26,7 @@ async function updatePages(isStart){
             if(isStart) {
                 updateViewers();
                 if(typeof renderTask == "string") {
+                    await updateRenderEndpoint();
                     setRenderTask();
                 }
                 running = setInterval(()=>{
@@ -62,7 +63,7 @@ async function setRenderTask() {
         },1000 * 5);
     }
 }
-async function updateRenderEndpoint() {
+async function updateRenderEndpoint2() {
     try {
         const url = atob("aHR0cHM6Ly9zdGFybGlnaHRza2lucy5sdW5hcmVjbGlwc2Uuc3R1ZGlvL3JlbmRlci9kZWZhdWx0L0Fsb25zb0FsaWFnYS9mdWxs");
         const response = await fetch(url);
