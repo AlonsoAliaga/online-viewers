@@ -15,7 +15,7 @@ async function updatePages(isStart){
         console.log(`Fetching total?`)
         await fetch(`https://alonsoapi.discloud.app/total${query}`)
         .then(res => res.json())
-        .then(content => {
+        .then(async content => {
             if(typeof content.error != "undefined") {
                 clearRunning();
                 updateViewers();
