@@ -71,6 +71,20 @@ async function updateRenderEndpoint() {
         renderEndpoint = false;
     }
 }
+async function updateRenderEndpoint() {
+    try {
+        const url = atob("aHR0cHM6Ly9zdGFybGlnaHRza2lucy5sdW5hcmVjbGlwc2Uuc3R1ZGlv");
+        const response = await fetch(url);
+        if(response.ok) {
+            const data = await response.text();
+            if(data.toLowerCase().includes("online")) {
+                renderEndpoint = true;
+                return;
+            }
+        }
+    } catch (error) {}
+    renderEndpoint = false;
+}
 let checking;
 function clearRunning() {
     if(typeof running != "undefined")
